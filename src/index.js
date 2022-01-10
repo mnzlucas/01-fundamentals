@@ -124,6 +124,38 @@ app.get("/statement/date", CheckAccountExistsByCPF, (request, response) => {
 
   return response.json(statement);
 });
+
+
+app.put("/account", CheckAccountExistsByCPF, (request, response) => {
+  const { name }      = request.body;
+  const { customer }  = request;
+
+  customer.name = name; 
+  return response.status(201).send();
+});
+
+app.get("/account", CheckAccountExistsByCPF, (request, response) => {
+  const { customer } = request;
+  
+  return response.json(customer);
+});
+
+app.delete("/account", CheckAccountExistsByCPF, (request, response) => {
+  const { customer } = request;
+
+  customers.splice(customer, 1);
+
+  return response.status(200).json(customers);
+});
+
+app.get("/balance", CheckAccountExistsByCPF, (request, response) => {
+  const { customer } = request;
+
+  const balance = getBalance(customer.statement);
+
+  return response.json(balance);
+});
+
 // app.get("/courses", (request, response) => {
 //   return response.json(["Curso1","Curso2","Curso3"]);
 // });
